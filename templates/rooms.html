@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<style>
+body {
+    padding: 10px;
+}
+</style>
+
+<body class="container">
+    {{ text }}
+
+    {% if groups %}
+      <ul class="groups">
+        {% for group in groups %}
+          <li><a href='/get/{{ group._id }}'>{{ group.name }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+        <h2>Nae groups lad, sorry.</h2>
+    {% endif %}
+
+    <p><a href="/create" class="btn btn-default">Create a Group</a></p>
+    <p><a href="/logout" class="btn btn-default">Log Out</a></p>
+</body>

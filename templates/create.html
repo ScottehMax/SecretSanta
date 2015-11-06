@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<style>
+body {
+    padding: 10px;
+}
+</style>
+
+<body class="container">
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> {{ error }}
+    </div>
+    {% endif %}
+    <form action="" method="post">
+        <h2>Create a group!</h2>
+        <p>Group Name: <input type=text name=name>
+        <p><input type=submit value=Create class="btn btn-default">
+    </form>
+</body>

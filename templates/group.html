@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+<style>
+body {
+    padding: 10px;
+}
+</style>
+
+<body class="container">
+    <h2>{{ groupname }}</h2>
+    {% if user_data %}
+    <ul>
+        {% for user in user_data %}
+        <li>{{ user[0] }} &lt;{{ user[1] }}&gt;</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Currently no members of this group.</p>
+    {% endif %}
+
+    <form action="/adduser/{{ id }}" method="post">
+        <p>Username: <input type=text name=username></p>
+        <p><input type=submit value="Add User" class="btn btn-default"></p>
+    </form>
+    <a href="/send/{{ id }}" class="btn btn-default">Finished. Send emails!</a>
+</body>
+
