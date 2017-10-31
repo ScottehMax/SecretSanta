@@ -9,6 +9,8 @@ from ConfigParser import RawConfigParser
 config = RawConfigParser()
 config.read('config.ini')
 
+GLASWEGIAN_MODE = True
+
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 
@@ -96,11 +98,13 @@ def get(o_id):
     group = group_col.Group.find_one({'_id': ObjectId(o_id)})
     user_data = [(user, user_col.User.find_one({'username': user}).email) for user in group.users]
     if not group:
+        text = "Group disny exist, lad." if GLASWEGIAN_MODE else "That group does not exist."
         return render_template('basic.html',
-                               text="Group disny exist, lad.", redirect="/")
+                               text=text, redirect="/")
     if group.owner != session.get('username'):
+        text = "Hawl, that's not your group. Get tae." if GLASWEGIAN_MODE else "You do not have permission to manage that group."
         return render_template('basic.html',
-                               text="Hawl, that's not your group. Get tae.", redirect="/")
+                               text=text, redirect="/")
     print 'Getting group with ID %s...' % o_id
     return render_template('group.html',
                            groupname=group.name,
