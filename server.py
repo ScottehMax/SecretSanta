@@ -68,9 +68,11 @@ def login():
         if check_user(username, password):
             # yay!
             session['username'] = username
-            return render_template('basic.html', text='Success! You are now logged in.', redirect="/")
+            text = "That's you mate, you're in. Sorted." if GLASWEGIAN_MODE else 'Success! You are now logged in.'
+            return render_template('basic.html', text=text, redirect="/")
         else:
-            return render_template('basic.html', text='Invalid username or password.', redirect="/login")
+            text = "Not quite, pal. Username or password isn't right. Not saying which, security reasons and all that. Gie it another go." if GLASWEGIAN_MODE else 'Invalid username or password.'
+            return render_template('basic.html', text=text, redirect="/login")
     return render_template('login.html')
 
 
@@ -78,7 +80,8 @@ def login():
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
-    return render_template('basic.html', text='You are now logged out.', redirect="/")
+    text = "Right, off you go. You've logged out properly." if GLASWEGIAN_MODE else 'You are now logged out.'
+    return render_template('basic.html', text=text, redirect="/")
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -123,13 +126,15 @@ def add_user(o_id):
     if request.method == 'POST':
         group = group_col.Group.find_one({'_id': ObjectId(o_id)})
         if group.owner != session.get('username'):
+            text = "Hawl, that's not your group. Get tae." if GLASWEGIAN_MODE else "You do not have permission to manage that group."
             return render_template('basic.html',
-                                   text='That is NOT your group. PLEASE.', redirect="/")
+                                   text=text, redirect="/")
         username = unicode(request.form['username'])
         if user_col.User.find_one({'username': username}):
             if username in group.users:
+                text = "Your user's already there, mate! I know you love them but you can only add them once." if GLASWEGIAN_MODE else 'User is already in the group.'
                 return render_template('basic.html',
-                                       text="User is already in the group.", redirect="/get/%s" % o_id)
+                                       text=text, redirect="/get/%s" % o_id)
             else:
                 group.users.append(username)
                 group.save()
@@ -139,8 +144,9 @@ def add_user(o_id):
             return render_template('basic.html',
                                    text="User does not exist.", redirect="/get/%s" % o_id)
     else:
+        text = "Aye, and the other one too. Use the site properly." if GLASWEGIAN_MODE else "Invalid request."
         return render_template('basic.html',
-                               text='Oi. Stop trying to break my webapp.', redirect="/")
+                               text=text, redirect="/")
 
 
 def ss(l):
