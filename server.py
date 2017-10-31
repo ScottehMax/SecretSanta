@@ -153,7 +153,6 @@ def ss(l):
 
 @app.route('/send/<o_id>')
 def send(o_id):
-    # oh shit oh shit OH SHIT OH SHIT!!!!
     group = group_col.Group.find_one({'_id': ObjectId(o_id)})
     if group.owner != session.get('username'):
         return render_template('basic.html',
